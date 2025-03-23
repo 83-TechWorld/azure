@@ -1,0 +1,13 @@
+# Ignore VS Code settings folder
+.vscode/
+
+# Ignore Terraform executable files
+terraform.exe
+**/terraform.exe
+.terraform.lock.hcl
+azure_terraform/.terraform/**
+azurecrud/target/**
+azurecrud/.mvn/**
+azurecrud/mvnw
+azurecrud/mvnw.cmd
+azure_terraform/terraform.tfstate
