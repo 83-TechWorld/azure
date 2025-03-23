@@ -25,7 +25,7 @@ jobs:
     # Build the JAR inside 'azurecurd' folder
     - name: Build JAR
       run: |
-        cd azurecurd
+        cd azurecrud
         mvn clean package -DskipTests  
 
     # Deploy JAR using Azure Publish Profile
