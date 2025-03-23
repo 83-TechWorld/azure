@@ -1,36 +1,44 @@
-name: Azure crud into webapp
+name: Deploy to Azure App Service
 
 on:
   push:
     branches:
-      - main
-
-permissions:
-  id-token: write
-  contents: read
+      - main  # Change this to your deployment branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    
+    # Checkout the repo
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-    - name: Set up Java
+    # Setup JDK
+    - name: Setup Java 21
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
-        java-version: 21
+        distribution: 'temurin'  
+        java-version: '21'       
 
+    # Build the JAR inside 'azurecurd' folder
     - name: Build JAR
       run: |
-        mvn clean install -DskipTests
-        cp azurecrud/target/*.jar app.jar
+        cd azurecurd
+        mvn clean package -DskipTests  
 
-    - name: Deploy to Azure (Using Publish Profile)
+    # Upload the built JAR as an artifact (optional)
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: application-jar
+        path: azurecurd/target/*.jar  
+
+    # Deploy JAR using Azure Publish Profile
+    - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: "azurecurd-service"  # Replace with your Azure App Service name
+        app-name: "YOUR_AZURE_APP_SERVICE_NAME"  # Replace with your App Service name
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        package: app.jar
+        package: "azurecurd/target/*.jar"
