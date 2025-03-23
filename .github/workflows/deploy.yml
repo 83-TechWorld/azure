@@ -28,13 +28,6 @@ jobs:
         cd azurecurd
         mvn clean package -DskipTests  
 
-    # Upload the built JAR as an artifact (optional)
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: application-jar
-        path: azurecurd/target/*.jar  
-
     # Deploy JAR using Azure Publish Profile
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
